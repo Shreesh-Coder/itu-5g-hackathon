@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: e2-interface-deployment
+spec:
+  replicas: 2  # Number of instances for scaling
+  selector:
+    matchLabels:
+      app: e2-interface
+  template:
+    metadata:
+      labels:
+        app: e2-interface
+    spec:
+      containers:
+      - name: e2-interface
+        image: your-dockerhub/e2-interface-service:latest  # The Docker image pushed to Docker Hub
+        ports:
+        - containerPort: 5001  # Port the service listens on internally
+        command: ["python", "e2_interface_service.py"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: e2-interface-service
+spec:
+  type: ClusterIP  # ClusterIP is internal; service is not exposed externally
+  ports:
+    - port: 5001  # Internal port used by other services
+  selector:
+    app: e2-interface

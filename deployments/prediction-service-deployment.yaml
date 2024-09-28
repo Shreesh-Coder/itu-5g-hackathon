@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-service-deployment
+spec:
+  replicas: 2  # Number of instances for scaling
+  selector:
+    matchLabels:
+      app: prediction-service
+  template:
+    metadata:
+      labels:
+        app: prediction-service
+    spec:
+      containers:
+      - name: prediction-service
+        image: your-dockerhub/prediction-service:latest  # The Docker image pushed to Docker Hub
+        ports:
+        - containerPort: 5000  # Port the service listens on internally
+        command: ["python", "prediction_service.py"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-service
+spec:
+  type: ClusterIP  # ClusterIP is internal; service is not exposed externally
+  ports:
+    - port: 5000  # Internal port used by other services
+  selector:
+    app: prediction-service

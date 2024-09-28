@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot-ingestion-deployment
+spec:
+  replicas: 3  # Number of instances for scaling
+  selector:
+    matchLabels:
+      app: iot-ingestion
+  template:
+    metadata:
+      labels:
+        app: iot-ingestion
+    spec:
+      containers:
+      - name: iot-ingestion
+        image: your-dockerhub/iot-ingestion:latest  # The Docker image pushed to Docker Hub
+        ports:
+        - containerPort: 5000  # Port the service is exposed on
+        command: ["python", "iot_ingestion.py"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iot-ingestion-service
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+      nodePort: 30001  # Map container port 5000 to an external node 
