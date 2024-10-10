@@ -7,6 +7,11 @@ This project simulates a **5G-Powered Smart City Transit System**, consisting of
 
 The system is containerized using **Docker** and orchestrated using **Kubernetes**. The project uses **Kafka** for message brokering between services and **Zookeeper** for managing Kafka clusters.
 
+You can view and contribute to the project repository on GitHub:
+
+
+[5G-Powered Smart City Transit System Repository](https://github.com/Shreesh-Coder/server-app-nexran-xapp-controler/tree/main)
+
 ---
 
 ## **Project Structure**
